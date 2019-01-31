@@ -4,7 +4,7 @@ Disclaimer: this plugin is an independent project that is not supported by Twili
 
 The Push Notifications Flex Plugin allows you to create desktop notifications for agents using Twilio Flex. Notifications occur when a task is reserved for an agent.
 
-![preview image](https://user-images.githubusercontent.com/1418949/52041431-45e61100-24ef-11e9-85ce-31dfb895a012.png)
+![preview image](https://user-images.githubusercontent.com/1418949/52041612-c6a50d00-24ef-11e9-9ed4-93d9a912da29.png)
 
 Works in all browsers that support the Push API: https://caniuse.com/#feat=push-api
 
