@@ -4,6 +4,8 @@ Disclaimer: this plugin is an independent project that is not supported by Twili
 
 The Push Notifications Flex Plugin allows you to create desktop notifications for agents using Twilio Flex. Notifications occur when a task is reserved for an agent.
 
+![preview image](https://user-images.githubusercontent.com/1418949/52041431-45e61100-24ef-11e9-85ce-31dfb895a012.png)
+
 Works in all browsers that support the Push API: https://caniuse.com/#feat=push-api
 
 ## Setup
@@ -23,27 +25,31 @@ npm install
 ## Push API Options
 Add these to the `options` object in `showLocalNotification`.
 
-Visual Options
-"body": "<String>",
-"icon": "<URL String>",
-"image": "<URL String>",
-"badge": "<URL String>",
-"vibrate": "<Array of Integers>",
-"sound": "<URL String>",
-"dir": "<String of 'auto' | 'ltr' | 'rtl'>",
+```
+{
+  // Visual Options
+  "body": "<String>",
+  "icon": "<URL String>",
+  "image": "<URL String>",
+  "badge": "<URL String>",
+  "vibrate": "<Array of Integers>",
+  "sound": "<URL String>",
+  "dir": "<String of 'auto' | 'ltr' | 'rtl'>",
 
-Behavioural Options
-"tag": "<String>",
-"data": "<Anything>",
-"requireInteraction": "<boolean>",
-"renotify": "<Boolean>",
-"silent": "<Boolean>",
+  // Behavioural Options
+  "tag": "<String>",
+  "data": "<Anything>",
+  "requireInteraction": "<boolean>",
+  "renotify": "<Boolean>",
+  "silent": "<Boolean>",
 
-Visual & Behavioural Options
-"actions": "<Array of Strings>",
+  // Visual & Behavioural Options
+  "actions": "<Array of Strings>",
 
-Information Option. No visual affect.
-"timestamp": "<Long>"
+  // Information Option. No visual affect.
+  "timestamp": "<Long>"
+}
+```
 
 ## Development
 
@@ -74,3 +80,6 @@ npm run build
 Afterwards, you'll find in your project a `build/` folder that contains a file with the name of your plugin project. For example `plugin-example.js`. Take this file and upload it into the Assets part of your Twilio Runtime.
 
 Note: Common packages like `React`, `ReactDOM`, `Redux` and `ReactRedux` are not bundled with the build because they are treated as external dependencies so the plugin will depend on Flex which would provide them globally.
+
+## Credit
+Made with gratitude to @master-atul for the article on implementing web push: https://medium.com/izettle-engineering/beginners-guide-to-web-push-notifications-using-service-workers-cb3474a17679
