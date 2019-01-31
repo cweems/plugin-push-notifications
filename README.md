@@ -4,6 +4,7 @@ Disclaimer: this plugin is an independent project that is not supported by Twili
 
 The Push Notifications Flex Plugin allows you to create desktop notifications for agents using Twilio Flex. Notifications occur when a task is reserved for an agent.
 
+Works in all browsers that support the Push API: https://caniuse.com/#feat=push-api
 
 ## Setup
 
@@ -12,11 +13,37 @@ Make sure you have [Node.js](https://nodejs.org) as well as [`npm`](https://npmj
 Afterwards install the dependencies by running `npm install`:
 
 ```bash
+git clone https://github.com/cweems/plugin-push-notifications.git
 cd plugin-push-notifications
 
 # If you use npm
 npm install
 ```
+
+## Push API Options
+Add these to the `options` object in `showLocalNotification`.
+
+Visual Options
+"body": "<String>",
+"icon": "<URL String>",
+"image": "<URL String>",
+"badge": "<URL String>",
+"vibrate": "<Array of Integers>",
+"sound": "<URL String>",
+"dir": "<String of 'auto' | 'ltr' | 'rtl'>",
+
+Behavioural Options
+"tag": "<String>",
+"data": "<Anything>",
+"requireInteraction": "<boolean>",
+"renotify": "<Boolean>",
+"silent": "<Boolean>",
+
+Visual & Behavioural Options
+"actions": "<Array of Strings>",
+
+Information Option. No visual affect.
+"timestamp": "<Long>"
 
 ## Development
 
