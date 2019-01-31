@@ -20,22 +20,6 @@ export default class PushNotificationsPlugin extends FlexPlugin {
   }
 
   /**
-   * Generates the message that will display in the push alert
-   *
-   * @param newTask { 'task triggering the push' }
-   * @param allTasks { 'all task reservations for user' }
-   */
-
-  alertMessage(newTask, allTasks) {
-
-    let currentTask = allTasks.get(newTask);
-    let name = currentTask._task.attributes.name;
-    let channel = currentTask._task.attributes.channelType;
-
-    return `New ${channel} task from ${name}`;
-  }
-
-  /**
    * Subscribes to the redux store.
    * Fires a notification when a new task SID is added.
    */
@@ -58,16 +42,6 @@ export default class PushNotificationsPlugin extends FlexPlugin {
          console.log('New task')
        }
      }
-  }
-
-  showLocalNotification(title, body, swRegistration) {
-    const options = {
-      body,
-      "icon": "/img/flex_icon.png",
-      // here you can add more properties like icon, image, vibrate, etc.
-    };
-
-    swRegistration.showNotification(title, options);
   }
 
   registerServiceWorker() {
@@ -97,18 +71,47 @@ export default class PushNotificationsPlugin extends FlexPlugin {
   }
 
   /**
+   * Ask for permission to display notifications.
    * value of permission can be 'granted', 'default', 'denied'
    */
 
   async requestNotificationPermission () {
       const permission = await window.Notification.requestPermission();
-      // value of permission can be 'granted', 'default', 'denied'
-      // granted: user has accepted the request
-      // default: user has dismissed the notification permission popup by clicking on x
-      // denied: user has denied the request.
+
       if(permission !== 'granted'){
           throw new Error('Permission not granted for Notification');
       }
+  }
+
+  /**
+   * Show the push notification to the user.
+   * Called by taskListener.
+   */
+
+  showLocalNotification(title, body, swRegistration) {
+    const options = {
+      body,
+      "icon": "/img/flex_icon.png",
+      // here you can add more properties like icon, image, vibrate, etc.
+    };
+
+    swRegistration.showNotification(title, options);
+  }
+
+  /**
+   * Generates the message string that will display in the push alert
+   *
+   * @param newTask { 'task triggering the push' }
+   * @param allTasks { 'all task reservations for user' }
+   */
+
+  alertMessage(newTask, allTasks) {
+
+    let currentTask = allTasks.get(newTask);
+    let name = currentTask._task.attributes.name;
+    let channel = currentTask._task.attributes.channelType;
+
+    return `New ${channel} task from ${name}`;
   }
 
   init(flex, manager) {
