@@ -24,15 +24,32 @@ export default class PushNotificationsPlugin extends FlexPlugin {
     let registration;
     let currentTasks = [];
 
+    function alertMessage(newTask, allTasks) {
+      console.log(newTask, allTasks);
+
+      let currentTask = allTasks.get(newTask);
+      let name = currentTask._task.attributes.name;
+      let channel = currentTask._task.attributes.channelType;
+
+      return `New ${channel} task from ${name}`;
+    }
+
     function taskListener() {
       let nextState = manager.store.getState();
-      let nextTasks = Array.from(nextState.flex.worker.tasks.keys())
+      let nextTasks = nextState.flex.worker.tasks;
+      let nextTaskKeys = Array.from(nextTasks.keys());
 
-      for(var i = 0; i < nextTasks.length; i++) {
-        if (!currentTasks.includes(nextTasks[i])) {
-          currentTasks = nextTasks;
+      console.log(nextState.flex.worker.tasks);
+
+      for(var i = 0; i < nextTaskKeys.length; i++) {
+        if (!currentTasks.includes(nextTaskKeys[i])) {
+          currentTasks = nextTaskKeys;
+
+          let newTask = nextTaskKeys[i];
+          let message = alertMessage(newTask, nextTasks);
+
           if(registration) {
-            showLocalNotification('New Flex Task', 'this is the message', registration);
+            showLocalNotification('Twilio Flex', message, registration);
           }
           console.log('New task')
         }

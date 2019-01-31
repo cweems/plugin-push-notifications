@@ -1,6 +1,9 @@
-# Your custom Twilio Flex Plugin
+# Push Notifications for Twilio Flex
 
-Twilio Flex Plugins allow you to customize the apperance and behavior of [Twilio Flex](https://www.twilio.com/flex). If you want to learn more about the capabilities and how to use the API, check out our [Flex documentation](https://www.twilio.com/docs/flex).
+Disclaimer: this plugin is an independent project that is not supported by Twilio.
+
+The Push Notifications Flex Plugin allows you to create desktop notifications for agents using Twilio Flex. Notifications occur when a task is reserved for an agent.
+
 
 ## Setup
 
