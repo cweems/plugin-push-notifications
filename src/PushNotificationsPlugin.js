@@ -1,5 +1,5 @@
 import { FlexPlugin } from 'flex-plugin';
-import React from 'react';
+// import React from 'react';
 
 const PLUGIN_NAME = 'PushNotificationsPlugin';
 
@@ -13,35 +13,9 @@ export default class PushNotificationsPlugin extends FlexPlugin {
     this.registration = null;
     this.permission = null;
 
-    this.taskListener = this.taskListener.bind(this);
     this.registerServiceWorker = this.registerServiceWorker.bind(this);
     this.registerSuccess = this.registerSuccess.bind(this);
     this.init = this.init.bind(this)
-  }
-
-  /**
-   * Subscribes to the redux store.
-   * Fires a notification when a new task SID is added.
-   */
-
-  taskListener() {
-     const nextState = this.manager.store.getState();
-     const nextTasks = nextState.flex.worker.tasks;
-     const nextTaskKeys = Array.from(nextTasks.keys());
-
-     for(let i = 0; i < nextTaskKeys.length; i++) {
-       if (!this.currentTasks.includes(nextTaskKeys[i])) {
-         this.currentTasks = nextTaskKeys;
-
-         const newTask = nextTaskKeys[i];
-         const message = this.alertMessage(newTask, nextTasks);
-
-         if(this.registration) {
-           this.showLocalNotification('Twilio Flex', message, this.registration);
-         }
-         console.log('New task')
-       }
-     }
   }
 
   registerServiceWorker() {
@@ -88,14 +62,18 @@ export default class PushNotificationsPlugin extends FlexPlugin {
    * Called by taskListener.
    */
 
-  showLocalNotification(title, body, swRegistration) {
+  showLocalNotification(title, task, swRegistration) {
+    const body = this.alertMessage(task);
+
     const options = {
       body,
       "icon": "/img/flex_icon.png",
       // here you can add more properties like icon, image, vibrate, etc.
     };
 
-    swRegistration.showNotification(title, options);
+    if(swRegistration) {
+      swRegistration.showNotification(title, options);
+    }
   }
 
   /**
@@ -105,11 +83,10 @@ export default class PushNotificationsPlugin extends FlexPlugin {
    * @param allTasks { 'all task reservations for user' }
    */
 
-  alertMessage(newTask, allTasks) {
+  alertMessage(task) {
 
-    let currentTask = allTasks.get(newTask);
-    let name = currentTask._task.attributes.name;
-    let channel = currentTask._task.attributes.channelType;
+    let name = task.task.attributes.name;
+    let channel = task.task.attributes.channelType;
 
     return `New ${channel} task from ${name}`;
   }
@@ -118,6 +95,8 @@ export default class PushNotificationsPlugin extends FlexPlugin {
     this.manager = manager;
     this.registerServiceWorker();
 
-    const listen = manager.store.subscribe(this.taskListener);
+    manager.workerClient.on("reservationCreated", (task) => {
+      this.showLocalNotification('Twilio Flex', task, this.registration)
+    });
   }
 }
