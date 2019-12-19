@@ -1,3 +1,6 @@
+# Deprecated - Use the Twilio Flex Notifications Framework Instead
+https://www.twilio.com/docs/flex/notifications-framework#browser-notifications-handler
+
 # Push Notifications for Twilio Flex
 
 Disclaimer: this plugin is an independent project that is not supported by Twilio.
